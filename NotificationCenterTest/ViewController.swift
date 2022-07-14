@@ -29,11 +29,11 @@ class ViewController: UIViewController {
     }
     
     @objc func catchNotification() {
-        print("Mahir triggered")
+        print("Notification triggered")
     }
 }
 
 extension Notification.Name {
-    static let notificationName = Notification.Name("Mahir")
+    static let notificationName = Notification.Name("Notification")
 }
 
