@@ -9,27 +9,37 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        addObserver()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        throwNotification()
-    }
+    @IBOutlet weak var displayNotificationStatus: UILabel!
+    @IBOutlet weak var triggerButton: UIButton!
+    @IBOutlet weak var removeButton: UIButton!
+
     
     func addObserver() {
-        let nc = NotificationCenter.default
-        nc.addObserver(self, selector: #selector(catchNotification), name: .notificationName , object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(catchNotification), name: .notificationName , object: nil)
     }
     
-    func throwNotification() {
+    func removeObserver() {
+        NotificationCenter.default.removeObserver(self, name: .notificationName, object: nil)
+    }
+    
+    private func throwNotification() {
         NotificationCenter.default.post(name: .notificationName, object: nil)
     }
     
     @objc func catchNotification() {
-        print("Notification triggered")
+        displayNotificationStatus.text = "Notification is triggered"
+    }
+    
+    @IBAction func triggeredNotification(_ sender: UIButton) {
+        addObserver()
+        throwNotification()
+        triggerButton.isEnabled = false
+    }
+    
+    @IBAction func removedNotification(_ sender: UIButton) {
+        removeObserver()
+        triggerButton.isEnabled = true
+        displayNotificationStatus.text = "Notification is off"
     }
 }
 
